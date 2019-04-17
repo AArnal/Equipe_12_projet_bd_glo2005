@@ -1,0 +1,8 @@
+FROM python:slim
+COPY . /app
+WORKDIR /app
+RUN pip3 install -r requirements.txt
+RUN pip3 install gunicorn json-logging-py flask
+EXPOSE 5000
+
+ENTRYPOINT ["/usr/local/bin/gunicorn", "--config", "/app/gunicorn.conf", "--log-config", "/app/logging.conf", "-b", ":5000", "run:app"]
